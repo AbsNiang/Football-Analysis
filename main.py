@@ -1,4 +1,5 @@
 from utils import read_video, save_video
+from trackers import Tracker
 
 def main():
     # Read video
