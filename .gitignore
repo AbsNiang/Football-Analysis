@@ -1,2 +1,6 @@
 .env
 training/football-players-detection-1
+*.pt
+*.avi
+*.mp4
+*.pyc
