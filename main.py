@@ -10,8 +10,7 @@ def main():
     
     tracks = tracker.get_object_tracks(video_frames, read_from_stub=True, stub_path="stubs/track_stubs.pkl")
 
-    # Draw output
-    ## Draw object tracks
+    # Draw output & draw object tracks
     output_video_frames = tracker.draw_annotations(video_frames, tracks)
 
     # Save video
