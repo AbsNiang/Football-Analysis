@@ -2,7 +2,7 @@ import cv2
 
 def save_cropped_player_img(video_frames, tracks):
     # Save cropped image of a player
-    for _, player in tracks['players'][0].items():
+    for _, player in tracks['players'][1].items():
         bbox = player["bbox"]
         frame = video_frames[0]
 
@@ -11,3 +11,5 @@ def save_cropped_player_img(video_frames, tracks):
 
         # Save the cropped image
         cv2.imwrite(f"output_videos/cropped_img.jpg", cropped_image)
+
+        print("reached")
