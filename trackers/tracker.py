@@ -2,6 +2,10 @@ from ultralytics import YOLO
 import supervision as sv
 import pickle
 import os
+import sys
+import cv2
+sys.path.append('../')
+from utils import get_bbox_center, get_bbox_width
 
 # Using a tracker rather than model.track because goal keeper not well detected since small dataset
 class Tracker:
@@ -81,3 +85,43 @@ class Tracker:
                 pickle.dump(tracks, f)
 
         return tracks
+    
+    # Draws the ellipse underneath a player for their bounding box
+    def draw_ellipse(self, frame, bbox, colour, track_id):
+        y2 = int(bbox[3])
+        
+        x_center, _ = get_bbox_center(bbox)
+        width = get_bbox_width(bbox)
+
+        cv2.ellipse(
+            frame,
+            center=(x_center, y2),
+            axes=(int(width), int(0.35*width)),
+            angle=0.0,
+            startAngle=-45,
+            endAngle=235,
+            color=colour,
+            thickness=2,
+            lineType=cv2.LINE_4
+        )
+
+        return frame
+
+
+    def draw_annotations(self, video_frames, tracks):
+        output_video_frames = []
+        for frame_num, frame in enumerate(video_frames):
+            frame = frame.copy()
+            
+            player_dict = tracks["players"][frame_num]
+            referee_dict = tracks["referees"][frame_num]
+            ball_dict = tracks["ball"][frame_num]
+
+            # Draw players
+            for track_id, player in player_dict.items():
+                frame = self.draw_ellipse(frame, player["bbox"], (0, 0, 255), track_id) # red
+
+            output_video_frames.append(frame)
+        
+        return output_video_frames
+        

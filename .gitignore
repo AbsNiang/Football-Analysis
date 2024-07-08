@@ -4,3 +4,4 @@ training/football-players-detection-1
 *.avi
 *.mp4
 *.pyc
+*.pkl
