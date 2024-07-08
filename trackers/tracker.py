@@ -49,7 +49,7 @@ class Tracker:
                     detection_supervision.class_id[object_index] = cls_names_inv["player"]
 
             # Track objects
-            detection_with_tracks = self.tracker.update_with_detections(detection_supervision, frame_num)
+            detection_with_tracks = self.tracker.update_with_detections(detection_supervision)
 
             # Each object will have a dictionary containing the id and the bounding box
             tracks["players"].append({})
@@ -57,7 +57,7 @@ class Tracker:
             tracks["ball"].append({})
 
             for frame_detection in detection_with_tracks:
-                bbox = frame_detection[0].toList()
+                bbox = frame_detection[0].tolist()
                 class_id = frame_detection[3]
                 track_id = frame_detection[4]
 
@@ -65,11 +65,11 @@ class Tracker:
                     tracks["players"][frame_num][track_id] = {"bbox":bbox}
                 
                 if class_id == cls_names_inv["referee"]:
-                    tracks["referee"][frame_num][track_id] = {"bbox":bbox}
+                    tracks["referees"][frame_num][track_id] = {"bbox":bbox}
 
             # Only 1 ball so make the track to act on one ball object
             for frame_detection in detection_supervision:
-                bbox = frame_detection[0].toList()
+                bbox = frame_detection[0].tolist()
                 class_id = frame_detection[3]
 
                 if class_id == cls_names_inv["ball"]:
