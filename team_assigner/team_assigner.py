@@ -1,4 +1,6 @@
 from sklearn.cluster import KMeans
+#! Need to set the goal keeper teams later
+
 class TeamAssigner:
     def __init__(self):
         self.team_colours = {}
